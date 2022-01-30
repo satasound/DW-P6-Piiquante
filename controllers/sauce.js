@@ -60,9 +60,12 @@ exports.modifySauce = (req, res, next) => {
           }
         : { ...req.body.sauce };
 
-      Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
-        .catch((error) => res.status(400).json(error.message));
+      //Supprimer l'image de la sauce
+      fs.unlink(`images/${filename}`, () => {
+        Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
+          .catch((error) => res.status(400).json(error.message));
+      });
     })
     .catch((error) => res.status(400).json(error.message));
 };
