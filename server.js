@@ -12,6 +12,8 @@ const normalizePort = (val) => {
   }
   return false;
 };
+//Port : port de l'environnement ou 3000.
+//NormalizePort : etre sur que le port est bien un numero ou un string
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -20,6 +22,7 @@ const errorHandler = (error) => {
     throw error;
   }
   const address = server.address();
+  //Formater l'adresse
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
   switch (error.code) {
     case 'EACCES':
@@ -34,7 +37,7 @@ const errorHandler = (error) => {
       throw error;
   }
 };
-
+//Créer le serveur
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
